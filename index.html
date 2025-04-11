@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mondal Mobile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- সাইডবার -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Mondal Mobile Accessories</span>
+            </div>
+            <nav>
+                <ul>
+                    <li class="active" onclick="switchTab('dashboard')">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>ড্যাশবোর্ড</span>
+                    </li>
+                    <li onclick="switchTab('products')">
+                        <i class="fas fa-boxes"></i>
+                        <span>প্রোডাক্টস</span>
+                    </li>
+                    <li onclick="switchTab('sales')">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>সেলস</span>
+                    </li>
+                    <li onclick="switchTab('new-bill')">
+                        <i class="fas fa-receipt"></i>
+                        <span>নতুন বিল</span>
+                    </li>
+                    <li onclick="switchTab('saved-bills')">
+                        <i class="fas fa-archive"></i>
+                        <span>সঞ্চিত বিল</span>
+                    </li>
+                    <li onclick="switchTab('reports')">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>রিপোর্টস</span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- মেইন কন্টেন্ট -->
+        <div class="main-content">
+            <!-- ড্যাশবোর্ড -->
+            <div id="dashboard" class="tab-content active">
+                <h2><i class="fas fa-tachometer-alt"></i> ড্যাশবোর্ড ওভারভিউ</h2>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-blue">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>আজকের বিক্রয়</h3>
+                            <p id="today-sales">₹ 0.00</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-green">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>আজকের লাভ</h3>
+                            <p id="today-profit">₹ 0.00</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-orange">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>মোট প্রোডাক্ট</h3>
+                            <p id="total-products">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- প্রোডাক্ট ম্যানেজমেন্ট -->
+            <div id="products" class="tab-content">
+                <div class="tab-header">
+                    <h2><i class="fas fa-boxes"></i> প্রোডাক্ট ম্যানেজমেন্ট</h2>
+                    <button class="btn btn-primary" onclick="showProductModal()">
+                        <i class="fas fa-plus"></i> নতুন প্রোডাক্ট
+                    </button>
+                </div>
+                
+                <div class="product-filters">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="product-search" placeholder="প্রোডাক্ট খুঁজুন...">
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table id="product-table">
+                        <thead>
+                            <tr>
+                                <th>প্রোডাক্ট নাম</th>
+                                <th>ক্রয় মূল্য</th>
+                                <th>বিক্রয় মূল্য</th>
+                                <th>স্টক</th>
+                                <th>অ্যাকশন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="product-list">
+                            <!-- প্রোডাক্ট লিস্ট এখানে লোড হবে -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- সেলস ম্যানেজমেন্ট -->
+            <div id="sales" class="tab-content">
+                <h2><i class="fas fa-shopping-cart"></i> সেলস ম্যানেজমেন্ট</h2>
+                <div class="table-container">
+                    <table id="sales-table">
+                        <thead>
+                            <tr>
+                                <th>তারিখ</th>
+                                <th>প্রোডাক্ট</th>
+                                <th>পরিমাণ</th>
+                                <th>মোট মূল্য</th>
+                                <th>লাভ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sales-list">
+                            <!-- সেলস লিস্ট এখানে লোড হবে -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- নতুন বিল -->
+            <div id="new-bill" class="tab-content">
+                <h2><i class="fas fa-receipt"></i> নতুন বিল তৈরি</h2>
+                <div class="bill-container">
+                    <div class="bill-header">
+                        <div>
+                            <label>গ্রাহকের নাম:</label>
+                            <input type="text" id="customer-name" placeholder="গ্রাহকের নাম">
+                        </div>
+                        <div>
+                            <label>তারিখ:</label>
+                            <input type="date" id="bill-date">
+                        </div>
+                    </div>
+                    
+                    <div class="bill-items">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>প্রোডাক্ট</th>
+                                    <th>দাম</th>
+                                    <th>পরিমাণ</th>
+                                    <th>মোট</th>
+                                    <th>অ্যাকশন</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bill-items-list">
+                                <!-- বিল আইটেম এখানে যোগ হবে -->
+                            </tbody>
+                        </table>
+                        
+                        <div class="add-item">
+                            <select id="bill-product">
+                                <option value="">প্রোডাক্ট নির্বাচন করুন</option>
+                            </select>
+                            <input type="number" id="bill-quantity" placeholder="পরিমাণ" min="1" value="1">
+                            <button class="btn btn-primary" onclick="addToBill()">
+                                <i class="fas fa-plus"></i> যোগ করুন
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="bill-summary">
+                        <div class="bill-total">
+                            <h3>মোট টাকা: <span id="bill-total-amount">0</span> টাকা</h3>
+                        </div>
+                        <div class="bill-actions">
+                            <button class="btn btn-success" onclick="saveBill()">
+                                <i class="fas fa-save"></i> বিল সেভ করুন
+                            </button>
+                            <button class="btn btn-primary" onclick="printBill()">
+                                <i class="fas fa-print"></i> প্রিন্ট করুন
+                            </button>
+                            <button class="btn btn-danger" onclick="clearBill()">
+                                <i class="fas fa-trash"></i> বাতিল করুন
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- সঞ্চিত বিল -->
+            <div id="saved-bills" class="tab-content">
+                <h2><i class="fas fa-archive"></i> সঞ্চিত বিলসমূহ</h2>
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="bill-search" placeholder="বিল নম্বর বা গ্রাহকের নাম দিয়ে খুঁজুন">
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table id="saved-bills-table">
+                        <thead>
+                            <tr>
+                                <th>বিল নম্বর</th>
+                                <th>গ্রাহকের নাম</th>
+                                <th>তারিখ</th>
+                                <th>মোট টাকা</th>
+                                <th>অ্যাকশন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="saved-bills-list">
+                            <!-- সঞ্চিত বিল লিস্ট এখানে লোড হবে -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- রিপোর্টস -->
+            <div id="reports" class="tab-content">
+                <h2><i class="fas fa-chart-pie"></i> রিপোর্টস</h2>
+                <div class="report-filters">
+                    <div>
+                        <label>থেকে:</label>
+                        <input type="date" id="report-from-date">
+                    </div>
+                    <div>
+                        <label>প্রতি:</label>
+                        <input type="date" id="report-to-date">
+                    </div>
+                    <button class="btn btn-primary" onclick="generateReport()">
+                        <i class="fas fa-filter"></i> রিপোর্ট তৈরি করুন
+                    </button>
+                </div>
+                
+                <div class="report-container">
+                    <div class="report-summary">
+                        <div class="report-card">
+                            <h3>মোট বিক্রয়</h3>
+                            <p id="total-sales">₹ 0.00</p>
+                        </div>
+                        <div class="report-card">
+                            <h3>মোট লাভ</h3>
+                            <p id="total-profit">₹ 0.00</p>
+                        </div>
+                        <div class="report-card">
+                            <h3>মোট বিক্রিত প্রোডাক্ট</h3>
+                            <p id="total-sold">0</p>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="report-table">
+                            <thead>
+                                <tr>
+                                    <th>তারিখ</th>
+                                    <th>প্রোডাক্ট</th>
+                                    <th>পরিমাণ</th>
+                                    <th>বিক্রয় মূল্য</th>
+                                    <th>লাভ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="report-list">
+                                <!-- রিপোর্ট লিস্ট এখানে লোড হবে -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- প্রোডাক্ট মোডাল -->
+    <div class="modal" id="product-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">নতুন প্রোডাক্ট যোগ করুন</h3>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="product-form">
+                    <div class="form-group">
+                        <label for="modal-product-name">প্রোডাক্ট নাম *</label>
+                        <input type="text" id="modal-product-name" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="modal-buy-price">ক্রয় মূল্য (₹) *</label>
+                            <input type="number" id="modal-buy-price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modal-sell-price">বিক্রয় মূল্য (₹) *</label>
+                            <input type="number" id="modal-sell-price" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="modal-quantity">পরিমাণ *</label>
+                            <input type="number" id="modal-quantity" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modal-category">ক্যাটাগরি</label>
+                            <select id="modal-category">
+                                <option value="mobile">মোবাইল</option>
+                                <option value="case">কভার</option>
+                                <option value="charger">চার্জার</option>
+                                <option value="other">অন্যান্য</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="modal-description">বিবরণ</label>
+                        <textarea id="modal-description" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">বাতিল</button>
+                        <button type="submit" class="btn btn-primary">সেভ করুন</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
